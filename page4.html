@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Message Tushar ✨</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background: linear-gradient(to bottom right, #ffd6e8, #fce4ec);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      padding: 40px 30px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+
+    h2 {
+      color: #e91e63;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 60%;
+      min-height: 120px;
+      max-height: 300px;
+      resize: none;
+      border: 2px solid #f48fb1;
+      border-radius: 20px;
+      background-color: #ffe3ec;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      font-size: 1rem;
+      padding: 15px;
+      color: #6a1b9a;
+      outline: none;
+      overflow-y: hidden;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+      transition: border-color 0.3s ease, background-color 0.3s ease, height 0.3s ease;
+    }
+
+    textarea:focus {
+      border-color: #d81b60;
+      background-color: #fce4ec;
+    }
+
+    button[type="submit"] {
+      margin-top: 20px;
+      padding: 12px 30px;
+      background: #d81b60;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 4px 12px rgba(216, 27, 96, 0.4);
+    }
+
+    button[type="submit"]:hover {
+      background-color: #ad1457;
+      transform: scale(1.05);
+    }
+
+    button[type="submit"]:active {
+      transform: scale(0.98);
+    }
+
+    #thankYouCard {
+      display: none;
+    }
+
+    #thankYouCard img {
+      max-width: 100%;
+      border-radius: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card-container" id="formCard">
+    <h2>Message Tushar ✨</h2>
+    <form onsubmit="handleSubmit(event)">
+      <textarea name="message" placeholder="Write your lovely message here..." required oninput="autoGrow(this)"></textarea>
+      <input type="hidden" name="_captcha" value="false" />
+      <button type="submit">💌 Send Message</button>
+    </form>
+  </div>
+
+  <div class="card-container" id="thankYouCard">
+    <h2>Thank You 💖</h2>
+    <img src="/img/thank you.gif" alt="Thank You Animation" />
+  </div>
+
+  <script>
+    function autoGrow(textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      // Send the message manually via FormSubmit
+      const form = event.target;
+      const formData = new FormData(form);
+
+      fetch("https://formsubmit.co/ajax/hornetin0086@gmail.com", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById("formCard").style.display = "none";
+          document.getElementById("thankYouCard").style.display = "block";
+        } else {
+          alert("Something went wrong. Please try again.");
+        }
+      })
+      .catch(() => alert("Failed to send message."));
+    }
+  </script>
+</body>
+</html>

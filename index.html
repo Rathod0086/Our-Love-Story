@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Love Story</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to bottom right, #ffd6e8, #fce4ec);
+      color: #6a1b9a;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .heart {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      background: #e91e63;
+      transform: rotate(-45deg);
+      animation: beat 1s infinite;
+      margin-bottom: 20px;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      background: #e91e63;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -35px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 35px;
+      top: 0;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: rotate(-45deg) scale(1); }
+      50% { transform: rotate(-45deg) scale(1.2); }
+    }
+
+    .message {
+      font-size: 1.2em;
+      color: #880e4f;
+      margin-bottom: 30px;
+    }
+
+    .loader {
+      display: block;
+      --height-of-loader: 4px;
+      --loader-color: rgb(224, 12, 129);
+      width: 130px;
+      height: var(--height-of-loader);
+      border-radius: 30px;
+      background-color: rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loader::before {
+      content: "";
+      position: absolute;
+      background: var(--loader-color);
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      border-radius: 30px;
+      animation: moving 1s ease-in-out infinite;
+    }
+
+    @keyframes moving {
+      50% {
+        width: 100%;
+      }
+      100% {
+        width: 0;
+        right: 0;
+        left: unset;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="heart"></div>
+    <div class="message">Take a deep breath, my love. A special surprise awaits you... 💌</div>
+    <div class="loader"></div>
+  </div>
+
+  <script>
+    setTimeout(function() {
+      window.location.href = "page2.html";
+    }, 8000); // 5 seconds
+  </script>
+</body>
+</html>

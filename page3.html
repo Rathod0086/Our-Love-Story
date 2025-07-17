@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Love Story</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background: linear-gradient(to bottom right, #ffd6e8, #fce4ec);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .main-container {
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      padding: 2rem;
+      display: block;
+      transition: all 0.3s ease;
+    }
+
+    .card.hidden {
+      display: none;
+    }
+
+    .image {
+      width: 5rem;
+      height: 5rem;
+      margin: 0 auto 1rem;
+      background-color: #ffc0cb;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      animation: beat 0.6s linear alternate-reverse infinite;
+    }
+
+    .image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes beat {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+
+    .title {
+      font-size: 1.8rem;
+      color: #e91e63;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .message {
+      color: #6a1b9a;
+      font-size: 1.1rem;
+      margin: 0.7rem 0 1.5rem;
+    }
+
+    .btn {
+      margin: 0.3rem;
+      padding: 0.6rem 1.5rem;
+      background-color: #d81b60;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      transition: background 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #ad1457;
+    }
+
+    .btn {
+  text-decoration: none !important;
+}
+
+    /* Timeline List Styles */
+    .timeline-list {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 30px 20px;
+      margin-top: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      height: 580px;
+      overflow: hidden;
+      display: none;
+      position: relative;
+    }
+
+    .timeline-list.active {
+      display: block;
+    }
+
+    .timeline-list .title {
+      font-size: 1.6rem;
+      color: #c2185b;
+      margin-bottom: 20px;
+    }
+
+    .timeline-option {
+      background: #fff0f5;
+      border-left: 5px solid #f06292;
+      padding: 10px 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-option:hover {
+      transform: translateX(5px);
+      background: #ffd6e7;
+    }
+
+    .timeline-option h4 {
+      margin: 0;
+      color: #ad1457;
+      font-size: 1.1rem;
+    }
+
+    .timeline-option p {
+      margin: 5px 0 0;
+      font-size: 0.9rem;
+      color: #6a1b9a;
+    }
+
+    .emoji {
+      font-size: 1.3rem;
+      margin-right: 8px;
+    }
+
+    /* Story Card Styles */
+    .story-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 30px 20px;
+      margin-top: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      height: 580px;
+      overflow-y: auto;
+      display: none;
+      position: relative;
+      scrollbar-width: none; /* Hide scrollbar for Firefox */
+    }
+
+    .story-card::-webkit-scrollbar {
+      display: none; /* Hide scrollbar for Chrome/Safari */
+    }
+
+    .story-card.active {
+      display: block;
+    }
+
+    .story-card .title {
+      font-size: 1.6rem;
+      color: #c2185b;
+      margin-bottom: 20px;
+    }
+
+    .story-card .image {
+      width: 8rem;
+      height: 8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .story-card .message {
+      text-align: left;
+      line-height: 1.6;
+      padding: 0 10px;
+    }
+
+    /* Arrow Styles */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      cursor: pointer;
+      border: 2px solid #ff69b4;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .arrow.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: not-allowed;
+      border-color: #ccc;
+    }
+
+    .arrow-left {
+      left: -50px;
+    }
+
+    .arrow-right {
+      right: -50px;
+    }
+
+    .arrow:hover:not(.disabled) {
+      background: #ffebf2;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .arrow:active:not(.disabled) {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    .arrow::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border: 2px solid #ff69b4;
+      border-width: 2px 2px 0 0;
+    }
+
+    .arrow.disabled::before {
+      border-color: #ccc;
+    }
+
+    .arrow-left::before {
+      transform: rotate(-135deg);
+    }
+
+    .arrow-right::before {
+      transform: rotate(45deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Arrows -->
+    <div class="arrow arrow-left disabled" onclick="goBack()"></div>
+    <div class="arrow arrow-right disabled" onclick="goNext()"></div>
+
+    <!-- Initial Card -->
+    <div class="card" id="card5">
+      <div class="image">
+        <img src="/img/hand image.webp" alt="Hand Holding Image" />
+      </div>
+      <div class="title">Our Special Story</div>
+      <div class="message">Hey cutiepie, you're my soulmate. 💖</div>
+      <button class="btn" onclick="showJourney()">Open Our Story</button>
+    </div>
+
+    <!-- Timeline List -->
+    <div class="timeline-list" id="timelineList">
+      <div class="title">❤️ Our Journey ❤️</div>
+
+      <div class="timeline-option" onclick="showStory('journey')">
+        <h4><span class="emoji">💕</span>Our Journey Began</h4>
+        <p>26 October, 2024</p>
+      </div>
+
+      <div class="timeline-option" onclick="showStory('firstDate')">
+        <h4><span class="emoji">🍝</span>Our First Date</h4>
+        <p>18 November, 2024</p>
+      </div>
+
+      <div class="timeline-option" onclick="showStory('firstRose')">
+        <h4><span class="emoji">🌹</span>The First Rose</h4>
+        <p>4 December, 2024</p>
+      </div>
+
+      <div class="timeline-option" onclick="showStory('firstMovie')">
+        <h4><span class="emoji">🎬</span>First Movie Together</h4>
+        <p>14 February, 2025</p>
+      </div>
+
+      <div class="timeline-option" onclick="showStory('firstFight')">
+        <h4><span class="emoji">😡</span>First Fight & Sweet Patch-up</h4>
+        <p>9 July, 2025</p>
+      </div>
+
+      <div class="timeline-option" onclick="showStory('birthday')">
+        <h4><span class="emoji">🎁</span>Your Birthday Today!</h4>
+        <p>18 July, 2025</p>
+      </div>
+    </div>
+
+    <!-- Story Cards -->
+    <div class="story-card" id="journey">
+      <div class="image">
+        <img src="/img/Journey.jpg" alt="Our Journey" />
+      </div>
+      <div class="title">Our Journey Began</div>
+      <div class="message">
+        Hamari kahani start hui 26 October 2024 ko 📅. Us din maine tujhe Snap
+        bheja tha... honestly, koi expectations nahi thi ki tu reply karegi,
+        bas ek choti si hope thi 💌. Aur jab tune reply kiya, mujhe laga jaise
+        kuch special start ho gaya hai ✨. Us din baatein hui, connection feel
+        hua... aur bina kuch soche maine tujhe propose kar diya ❤. Mujhe yaad
+        hai tune bola tha "mujhe thoda waqt chahiye", lekin agle hi din jab
+        tune haan kaha... sach bolu to us moment pe meri khushi ka koi limit
+        hi nahi tha 💖. Laga jaise duniya ki sabse beautiful feeling mil gayi
+        ho mujhe 🎉. Shuruaat mein laga tha bas ek attraction hai, par
+        dheere-dheere woh attraction itne deep emotions mein badal gaya ki
+        main khud samajh nahi paaya 😇. Aaj main tujhe sirf pasand nahi karta,
+        main tujhe dil se chahta hoon... every single day, a little more than
+        yesterday ❤‍🔥.
+      </div>
+    </div>
+
+    <div class="story-card" id="firstDate">
+      <div class="image">
+        <img src="/img/date.webp" alt="First Date" />
+      </div>
+      <div class="title">Our First Date</div>
+      <div class="message">
+        18 November 2024... ek aisi date jo main kabhi bhool nahi sakta 💭❤
+        Hamari pehli date thi — ya shayad keh sakte hain, hamari kahani ka ek naya pyaara chapter 📖✨. Tujhe date par le jaane ke liye maine itna mana, itna manaya... lekin tu ready hi nahi thi 😅. Phir socha ki chalo mandir chalte hain… aur jab tune haan kaha, to meri smile bas ruk hi nahi rahi thi 🥹💫.
+        Mahadev ke mandir mein tere saath jaana… vo feeling main shabdon mein describe nahi kar sakta. Us waqt maine pehli baar kisi ke liye dil se dua ki thi — tujhe maanga tha, sirf apna banane ke liye nahi, balki hamesha ke liye 🙏💖. Mandir mein khade hokar laga ki meri love story sirf beautiful nahi, blessed bhi hai 🕉✨.
+        Aur haan… us din tu sach mein next level khubsurat lag rahi thi 😍. Tujhe dekhkar bas ek hi baat dil se nikli — "Yahi vo ladki hai jisse maine sirf chaha nahi, mehsoos bhi kiya hai…"
+        Shayad duniya ke liye vo bas ek simple din tha… lekin mere liye vo din meri zindagi ke best days mein se ek ban gaya ❤‍🔥🌸
+      </div>
+    </div>
+
+    <div class="story-card" id="firstRose">
+      <div class="image">
+        <img src="/img/rose.jpg" alt="First Rose" />
+      </div>
+      <div class="title">The First Rose</div>
+      <div class="message">
+        4 December 2024... vo din meri life ka ek aisa pal ban gaya jo main chahkar bhi bhool nahi sakta 😔🌹
+        Mera koi plan nahi tha tujhe rose dene ka… bas normal sa din tha. Lekin jab maine dekha ki mere friend ne apni girlfriend ke liye ek rose kharida, to mujhe laga — shayad mujhe bhi try karna chahiye.
+        Kyuki main kabhi relationship mein raha nahi tha, mujhe nahi pata tha kya dena chahiye, kaise express karte hain… par ek baat dil se thi — main tujhe kuch special feel karwana chahta tha. 💞
+        To maine tere liye apna pehla rose kharida... bina kisi planning ke, sirf ek feeling ke saath. Tune vo rose le to liya... par uske baad jo kuch hua, usne mujhe tod diya 💔.
+        Tere reaction ne mujhe shock de diya — tujhe laga maine kuch aur soch kar diya hai. Shayad tu introvert hai, tujhe yeh sab openly pasand nahi… lekin mera intention sirf pyaar dikhana tha. Mujhe laga tujhe achha lagega, par tujhe kuch aur hi laga.
+        Aur jab tune mujhse break karne ki baat ki... meri duniya hi hil gayi 😞. Pehli baar, sach mein... main tere liye roya tha 😢.
+        Mujhe laga maine kuch galat kar diya, sirf ek chhoti si chiz dekar maine sab kuch kharab kar diya.
+        Par sach kahu — maine vo rose kisi wrong intention se nahi, sirf dil se diya tha… kyuki tujhe pyaar karta hoon, aur chahta hoon ki tu feel kare ki tu mere liye kitni special hai ❤‍🩹
+      </div>
+    </div>
+
+    <div class="story-card" id="firstMovie">
+      <div class="image">
+        <img src="/img/movie.webp" alt="First Movie" />
+      </div>
+      <div class="title">First Movie Together</div>
+      <div class="message">
+       14 February 2025... Valentine's Day tha aur hamari pehli movie date bhi 🎬💘
+        Main to keh raha tha chalo Narayangaon wale theatre mein chalte hain, waha thoda comfortable lagega… par tu to bilkul nahi maani 😅. Bola "Manchar theatre hi chahiye", to maine kaha — chalo, tujhe khush rakhna meri zimmedaari hai 💁‍♂💞
+        Phir hum movie dekhne gaye — Chhava.
+        Mujhe laga tu enjoy karegi, thoda historical, thoda intense… par bhai, movie mein bas torture hi torture tha 😵‍💫
+        Aur tu to wo scenes dekh kar emotional ho gayi… literally ro padhi 🥺
+        Us moment pe mujhe bura lagne laga… socha tha ki tujhe special feel karaunga, thoda fun hoga, memories banayenge — lekin tujhe rulaya.
+        Aur tu to waise hi thodi sensitive hai… sab kuch dil se feel karti hai. Mujhe laga shayad maine galat movie choose karli 😔
+        Par fir bhi, us din ka ek hi sabse accha part tha — tu mere saath thi.
+        Tere saath wo movie dekhna, tere reactions observe karna, tera haath pakadna, chhupke se tujhe dekhna… sab kuch ek pyari yaad ban gaya 🥰
+        Aur chahe movie ne tujhe rulaya ho, par tujhe paas mehsoos karke mujhe ek alag hi sukoon mila tha 💗
+      </div>
+    </div>
+
+    <div class="story-card" id="firstFight">
+      <div class="image">
+        <img src="/img/patchup.avif" alt="First Fight" />
+      </div>
+      <div class="title">First Fight & Sweet Patch-up</div>
+      <div class="message">
+       9 July ko tujhe dekha, to samajh nahi aaya ki gussa ho jaun ya bas ek baar gale lag jaaun.
+      Socha tha tu 8 ko aayegi, par jab 9 ko saamne aayi, to sab kuch confuse kar gaya.
+      Baat nahi ki… kyunki laga tu ab mujhse door ho chuki hai.
+      Par ghar jaate jaate sirf ek hi feeling thi — "maine galti kar di tujhe ignore karke."
+      Aur raat ko jab tera message aaya… sach kahu to aankhon mein aansu aa gaye.
+      Chaaha ignore karna, par dil ne keh diya — "ek chance aur de de."
+      Agle din clg me mila… jhoot bola tune, lekin tere pyaar ne sab theek kar diya.
+      Mujhe vo jhoot yaad nahi, mujhe sirf tu yaad hai.
+      Aur main har baar tujhe wahi feel karwana chahta hoon — safe, loved, aur apna 🫶
+      Please… kabhi dobara waisa mat karna. Tu meri sabse khoobsurat feeling hai. ❤
+      </div>
+    </div>
+
+    <div class="story-card" id="birthday">
+      <div class="image">
+        <img src="/img/birthday.webp" alt="Birthday" />
+      </div>
+      <div class="title">Your Birthday Today!</div>
+      <div class="message">
+      Happy Birthday Piyu 🎂❤
+      Aaj tera special day hai… aur sabse pehle to ek tight wala wish —
+      A most lovable Happy Birthday to you, meri jaan! 🥳💖
+      Sach bolu to mujhe bade bade English paragraphs likhne nahi aate… na mujhe woh fancy lines chahiye, kyunki unme vo feeling hoti hi nahi jo mere dil mein tere liye hai.
+      Bas itna kehna hai — tu mere liye bohot important hai.
+      Teri smile, tera attitude, tera pyar… sab kuch mujhe har din aur zyada tere kareeb laata hai.
+      Aur haan… tu sach mein princess lagti hai yaar 👑💕
+      Tera chehra dekhkar kabhi kabhi lagta hai ki duniya ruk jaye aur sirf tujhe dekhta rahu 🥺✨
+      Aaj ka din sirf tera hai — enjoy it fully, smile karte rehna… aur yaad rakhna,
+      I really love you baby. Har din, har pal, aur har janam ke liye. ❤‍🔥
+      </div>
+      <a href="page4.html" class="btn">Text Him</a>
+    </div>
+  </div>
+
+  <script>
+    let currentCard = 'card5';
+    const cardOrder = ['timelineList', 'journey', 'firstDate', 'firstRose', 'firstMovie', 'firstFight', 'birthday'];
+    let currentIndex = -1;
+
+    function updateArrowStates() {
+      const leftArrow = document.querySelector('.arrow-left');
+      const rightArrow = document.querySelector('.arrow-right');
+      
+      // Disable both arrows when on initial card
+      if (currentCard === 'card5') {
+        leftArrow.classList.add('disabled');
+        rightArrow.classList.add('disabled');
+      } else {
+        leftArrow.classList.remove('disabled');
+        rightArrow.classList.remove('disabled');
+        
+        // Disable left arrow when at first story
+        leftArrow.classList.toggle('disabled', currentIndex <= 0);
+        // Disable right arrow when at last story
+        rightArrow.classList.toggle('disabled', currentIndex >= cardOrder.length - 1);
+      }
+    }
+
+    function showJourney() {
+      document.getElementById('card5').classList.add('hidden');
+      showCard('timelineList');
+      currentIndex = 0;
+    }
+
+    function showCard(cardId) {
+      // Hide all cards first
+      document.querySelectorAll('.timeline-list, .story-card').forEach(card => {
+        card.classList.remove('active');
+      });
+      
+      // Show the selected card
+      const card = document.getElementById(cardId);
+      if (card) {
+        card.classList.add('active');
+        currentCard = cardId;
+        updateArrowStates();
+      }
+    }
+
+    function showStory(storyId) {
+      showCard(storyId);
+      currentIndex = cardOrder.indexOf(storyId);
+    }
+
+    function goBack() {
+      const leftArrow = document.querySelector('.arrow-left');
+      if (leftArrow.classList.contains('disabled')) return;
+      
+      if (currentIndex > 0) {
+        currentIndex--;
+        showCard(cardOrder[currentIndex]);
+      }
+    }
+
+    function goNext() {
+      const rightArrow = document.querySelector('.arrow-right');
+      if (rightArrow.classList.contains('disabled')) return;
+      
+      if (currentIndex < cardOrder.length - 1) {
+        currentIndex++;
+        showCard(cardOrder[currentIndex]);
+      }
+    }
+
+    // Initialize arrow states
+    updateArrowStates();
+  </script>
+</body>
+</html>
